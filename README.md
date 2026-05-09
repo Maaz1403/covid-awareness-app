@@ -1,4 +1,4 @@
-# 🦠 CovidCare — COVID-19 Awareness Web Application
+#  CovidCare — COVID-19 Awareness Web Application
 
 A fully responsive, feature-rich COVID-19 Awareness web application built with **vanilla HTML, CSS, and JavaScript**. Designed as a Web Technology project with a focus on real-world API integration, responsive design, and user experience.
 
@@ -7,21 +7,21 @@ https://maaz1403.github.io/covid-awareness-app
 
 ---
 
-## ✨ Features
+##  Features
 
 | Feature | Technology Used |
 |---|---|
-| 🔴 Live global & country-wise COVID stats | disease.sh free API + Fetch API |
-| 📊 Donut & Bar Charts | Chart.js (free CDN) |
-| 🌍 Country-wise Filter | REST API + LocalStorage |
-| 🩺 Interactive Symptom Checker | Vanilla JS + scoring algorithm |
-| 💉 Vaccine Information | Static content |
-| 🌙 Dark / Light Mode | CSS Variables + LocalStorage |
-| 📱 Fully Responsive | CSS Grid, Flexbox, Media Queries |
-| 🔍 FAQ Search Filter | DOM manipulation |
-| 🔄 Flip Cards (Prevention tips) | Pure CSS 3D transforms |
-| ⚡ Scroll Animations | Intersection Observer API |
-| ☎️ Indian Helplines Directory | Static content |
+|  Live global & country-wise COVID stats | disease.sh free API + Fetch API |
+|  Donut & Bar Charts | Chart.js (free CDN) |
+|  Country-wise Filter | REST API + LocalStorage |
+|  Interactive Symptom Checker | Vanilla JS + scoring algorithm |
+|  Vaccine Information | Static content |
+|  Dark / Light Mode | CSS Variables + LocalStorage |
+|  Fully Responsive | CSS Grid, Flexbox, Media Queries |
+|  FAQ Search Filter | DOM manipulation |
+|  Flip Cards (Prevention tips) | Pure CSS 3D transforms |
+|  Scroll Animations | Intersection Observer API |
+|  Indian Helplines Directory | Static content |
 
 ---
 
@@ -37,7 +37,7 @@ https://maaz1403.github.io/covid-awareness-app
 
 ---
 
-## 📁 Folder Structure
+##  Folder Structure
 
 ```
 covid-awareness-app/
@@ -53,7 +53,7 @@ covid-awareness-app/
 
 ---
 
-## 🚀 How to Run Locally
+##  How to Run Locally
 
 1. Clone the repository:
    ```bash
@@ -67,11 +67,11 @@ covid-awareness-app/
 
 4. Visit `http://127.0.0.1:5500` in your browser
 
-> ⚠️ Must run on a local server (not file://) for the API to work due to CORS.
+> Note: Must run on a local server (not file://) for the API to work due to CORS.
 
 ---
 
-## 🌐 API Used
+##  API Used
 
 - **Base URL:** `https://disease.sh/v3/covid-19`
 - **Global stats:** `/all`
@@ -81,13 +81,10 @@ covid-awareness-app/
 
 ---
 
-## 📸 Screenshots
-
-*(Add screenshots of your app here after building it)*
 
 ---
 
-## 📖 What I Learned
+##  What I Learned
 
 - REST API integration with `fetch()` and `async/await`
 - CORS handling and error management
@@ -99,14 +96,14 @@ covid-awareness-app/
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 Maaz Tabin Mohsin 
 
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — Free to use for educational purposes.
 
