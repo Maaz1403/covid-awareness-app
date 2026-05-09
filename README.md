@@ -102,7 +102,7 @@ covid-awareness-app/
 ## 👨‍💻 Author
 
 Maaz Tabin Mohsin 
-B.Tech CSE
+
 
 ---
 
