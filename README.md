@@ -2,8 +2,8 @@
 
 A fully responsive, feature-rich COVID-19 Awareness web application built with **vanilla HTML, CSS, and JavaScript**. Designed as a Web Technology project with a focus on real-world API integration, responsive design, and user experience.
 
-## 🌐 Live Demo
-[View Live on GitHub Pages](https://yourusername.github.io/covid-awareness-app)
+ ## Live Demo
+https://maaz1403.github.io/covid-awareness-app
 
 ---
 
@@ -57,7 +57,7 @@ covid-awareness-app/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/covid-awareness-app.git
+   git clone https://github.com/Maaz1403/covid-awareness-app.git
    cd covid-awareness-app
    ```
 
@@ -101,9 +101,8 @@ covid-awareness-app/
 
 ## 👨‍💻 Author
 
-**Your Name**  
-B.Tech [Your Branch] — [Your College]  
-[your.email@example.com] | [GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
+Maaz Tabin Mohsin 
+B.Tech CSE
 
 ---
 
