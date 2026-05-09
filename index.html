@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="COVID-19 Awareness App – Live stats, symptom checker, prevention tips, and vaccine info." />
+  <title>CovidCare – COVID-19 Awareness</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-logo">
+      <i class="fa-solid fa-virus-covid"></i> CovidCare
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#stats">Live Stats</a></li>
+      <li><a href="#symptoms">Symptoms</a></li>
+      <li><a href="#prevention">Prevention</a></li>
+      <li><a href="#vaccines">Vaccines</a></li>
+      <li><a href="#checker">Self Check</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#helpline">Helpline</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-bg-circles">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="container hero-content animate__animated animate__fadeInUp">
+    <div class="hero-badge"><i class="fa-solid fa-shield-virus"></i> Stay Informed. Stay Safe.</div>
+    <h1>COVID-19 <span class="highlight">Awareness</span> &amp; Live Tracker</h1>
+    <p class="hero-sub">Real-time global data, symptom checker, prevention guidelines, and vaccine information — all in one place.</p>
+    <div class="hero-cta">
+      <a href="#checker" class="btn btn-primary"><i class="fa-solid fa-stethoscope"></i> Check My Symptoms</a>
+      <a href="#stats" class="btn btn-outline"><i class="fa-solid fa-chart-line"></i> Live Statistics</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ===== GLOBAL STATS ===== -->
+<section class="section" id="stats">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Live Data</span>
+      <h2>Global COVID-19 Statistics</h2>
+      <p>Data refreshed every 10 minutes from WHO-verified sources</p>
+    </div>
+
+    <!-- Country Selector -->
+    <div class="country-selector reveal">
+      <label for="countrySelect"><i class="fa-solid fa-globe"></i> Select Country:</label>
+      <select id="countrySelect">
+        <option value="all">🌍 Global</option>
+      </select>
+      <span class="last-updated" id="lastUpdated">Loading...</span>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stats-grid reveal">
+      <div class="stat-card cases">
+        <div class="stat-icon"><i class="fa-solid fa-virus"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Total Cases</span>
+          <span class="stat-value" id="totalCases">--</span>
+          <span class="stat-today" id="todayCases">Loading...</span>
+        </div>
+      </div>
+      <div class="stat-card recovered">
+        <div class="stat-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Recovered</span>
+          <span class="stat-value" id="totalRecovered">--</span>
+          <span class="stat-today" id="recoveryRate">Loading...</span>
+        </div>
+      </div>
+      <div class="stat-card deaths">
+        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Deaths</span>
+          <span class="stat-value" id="totalDeaths">--</span>
+          <span class="stat-today" id="todayDeaths">Loading...</span>
+        </div>
+      </div>
+      <div class="stat-card active">
+        <div class="stat-icon"><i class="fa-solid fa-bed-pulse"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Active Cases</span>
+          <span class="stat-value" id="activeCases">--</span>
+          <span class="stat-today" id="critical">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid reveal">
+      <div class="chart-card">
+        <h3><i class="fa-solid fa-chart-pie"></i> Case Distribution</h3>
+        <div class="chart-wrap"><canvas id="donutChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3><i class="fa-solid fa-chart-line"></i> Top 10 Countries by Cases</h3>
+        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SYMPTOMS ===== -->
+<section class="section bg-alt" id="symptoms">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Know the Signs</span>
+      <h2>COVID-19 Symptoms</h2>
+      <p>Symptoms typically appear 2–14 days after exposure to the virus</p>
+    </div>
+    <div class="symptoms-grid">
+      <div class="symptom-card reveal" data-severity="high">
+        <div class="symptom-icon"><i class="fa-solid fa-thermometer-half"></i></div>
+        <h4>Fever</h4>
+        <p>High body temperature (100.4°F / 38°C or above)</p>
+        <span class="severity high">Common</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="high">
+        <div class="symptom-icon"><i class="fa-solid fa-lungs"></i></div>
+        <h4>Dry Cough</h4>
+        <p>Persistent cough without mucus production</p>
+        <span class="severity high">Common</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="high">
+        <div class="symptom-icon"><i class="fa-solid fa-wind"></i></div>
+        <h4>Shortness of Breath</h4>
+        <p>Difficulty breathing or breathlessness at rest</p>
+        <span class="severity critical">Seek Care</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="medium">
+        <div class="symptom-icon"><i class="fa-solid fa-battery-quarter"></i></div>
+        <h4>Fatigue</h4>
+        <p>Extreme tiredness and lack of energy</p>
+        <span class="severity medium">Common</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="medium">
+        <div class="symptom-icon"><i class="fa-solid fa-nose"></i></div>
+        <h4>Loss of Smell/Taste</h4>
+        <p>Anosmia – sudden loss of smell or taste sensation</p>
+        <span class="severity medium">Distinct Sign</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="medium">
+        <div class="symptom-icon"><i class="fa-solid fa-head-side-cough"></i></div>
+        <h4>Headache</h4>
+        <p>Persistent headache, often with fever</p>
+        <span class="severity medium">Common</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="low">
+        <div class="symptom-icon"><i class="fa-solid fa-face-dizzy"></i></div>
+        <h4>Body Aches</h4>
+        <p>Muscle pain or body aches throughout</p>
+        <span class="severity low">Mild</span>
+      </div>
+      <div class="symptom-card reveal" data-severity="low">
+        <div class="symptom-icon"><i class="fa-solid fa-stomach"></i></div>
+        <h4>Gastrointestinal</h4>
+        <p>Nausea, vomiting, or diarrhea in some cases</p>
+        <span class="severity low">Less Common</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PREVENTION ===== -->
+<section class="section" id="prevention">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Stay Protected</span>
+      <h2>Prevention Guidelines</h2>
+      <p>Follow these WHO-recommended steps to protect yourself and others</p>
+    </div>
+    <div class="prevention-grid">
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fa-solid fa-mask-face"></i>
+            <h4>Wear a Mask</h4>
+          </div>
+          <div class="flip-back">
+            <h4>Wear a Mask</h4>
+            <p>Use a well-fitted mask that covers your nose and mouth in crowded or poorly ventilated spaces.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fa-solid fa-hands-bubbles"></i>
+            <h4>Wash Hands</h4>
+          </div>
+          <div class="flip-back">
+            <h4>Hand Hygiene</h4>
+            <p>Wash hands for 20 seconds with soap. Use 60%+ alcohol sanitizer when soap is unavailable.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fa-solid fa-person-dots-from-line"></i>
+            <h4>Maintain Distance</h4>
+          </div>
+          <div class="flip-back">
+            <h4>Social Distancing</h4>
+            <p>Keep at least 1 metre (3 feet) distance from others, especially those coughing or sneezing.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fa-solid fa-wind"></i>
+            <h4>Ventilate Spaces</h4>
+          </div>
+          <div class="flip-back">
+            <h4>Fresh Air</h4>
+            <p>Open windows, use fans, or meet outdoors. Proper ventilation reduces airborne transmission risk.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fa-solid fa-syringe"></i>
+            <h4>Get Vaccinated</h4>
+          </div>
+          <div class="flip-back">
+            <h4>Vaccination</h4>
+            <p>COVID vaccines reduce severe illness. Get vaccinated and boosted as recommended by health authorities.</p>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card reveal">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <i class="fa-solid fa-house-medical"></i>
+            <h4>Stay Home if Sick</h4>
+          </div>
+          <div class="flip-back">
+            <h4>Isolate if Unwell</h4>
+            <p>Stay home if you feel unwell. Avoid contact with others and call your doctor for guidance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="do-donts reveal">
+      <div class="dos">
+        <h3><i class="fa-solid fa-check-circle"></i> Do's</h3>
+        <ul>
+          <li>Maintain respiratory hygiene – cover coughs</li>
+          <li>Monitor your symptoms daily</li>
+          <li>Eat nutritious food and stay hydrated</li>
+          <li>Exercise regularly at home</li>
+          <li>Stay informed from trusted sources (WHO, MoHFW)</li>
+        </ul>
+      </div>
+      <div class="donts">
+        <h3><i class="fa-solid fa-xmark-circle"></i> Don'ts</h3>
+        <ul>
+          <li>Don't touch your eyes, nose, mouth</li>
+          <li>Don't share personal items like towels</li>
+          <li>Don't ignore symptoms or self-medicate</li>
+          <li>Don't spread misinformation</li>
+          <li>Don't panic – follow official guidelines</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VACCINES ===== -->
+<section class="section bg-alt" id="vaccines">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Protection</span>
+      <h2>COVID-19 Vaccines</h2>
+      <p>All vaccines listed below are WHO-approved and proven safe and effective</p>
+    </div>
+    <div class="vaccine-grid">
+      <div class="vaccine-card reveal">
+        <div class="vaccine-logo covishield">COVISHIELD</div>
+        <div class="vaccine-info">
+          <h4>Oxford-AstraZeneca / SII</h4>
+          <p>Viral vector vaccine. 2 doses, 84 days apart. Most widely used in India.</p>
+          <div class="vaccine-stats">
+            <span><i class="fa-solid fa-shield"></i> ~76% efficacy</span>
+            <span><i class="fa-solid fa-calendar"></i> 2 doses</span>
+          </div>
+        </div>
+      </div>
+      <div class="vaccine-card reveal">
+        <div class="vaccine-logo covaxin">COVAXIN</div>
+        <div class="vaccine-info">
+          <h4>Bharat Biotech (India)</h4>
+          <p>Inactivated virus vaccine developed in India. 2 doses, 4 weeks apart.</p>
+          <div class="vaccine-stats">
+            <span><i class="fa-solid fa-shield"></i> ~77.8% efficacy</span>
+            <span><i class="fa-solid fa-calendar"></i> 2 doses</span>
+          </div>
+        </div>
+      </div>
+      <div class="vaccine-card reveal">
+        <div class="vaccine-logo pfizer">PFIZER</div>
+        <div class="vaccine-info">
+          <h4>Pfizer-BioNTech</h4>
+          <p>mRNA vaccine. 2 doses, 21 days apart. Booster available for adults 12+.</p>
+          <div class="vaccine-stats">
+            <span><i class="fa-solid fa-shield"></i> ~95% efficacy</span>
+            <span><i class="fa-solid fa-calendar"></i> 2 doses + booster</span>
+          </div>
+        </div>
+      </div>
+      <div class="vaccine-card reveal">
+        <div class="vaccine-logo moderna">MODERNA</div>
+        <div class="vaccine-info">
+          <h4>Moderna</h4>
+          <p>mRNA vaccine. 2 doses, 28 days apart. Authorized for adults 18+.</p>
+          <div class="vaccine-stats">
+            <span><i class="fa-solid fa-shield"></i> ~94% efficacy</span>
+            <span><i class="fa-solid fa-calendar"></i> 2 doses + booster</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="vaccine-cta reveal">
+      <a href="https://www.cowin.gov.in" target="_blank" rel="noopener" class="btn btn-primary">
+        <i class="fa-solid fa-syringe"></i> Register on CoWIN (India)
+      </a>
+      <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/covid-19-vaccines" target="_blank" rel="noopener" class="btn btn-outline">
+        <i class="fa-solid fa-circle-info"></i> WHO Vaccine Info
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SYMPTOM CHECKER ===== -->
+<section class="section" id="checker">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Self Assessment</span>
+      <h2>COVID-19 Symptom Checker</h2>
+      <p>Select your symptoms below to get a risk assessment and guidance</p>
+    </div>
+    <div class="checker-wrapper reveal">
+      <div class="checker-box" id="checkerStep1">
+        <h3>Step 1: Select all symptoms you currently have</h3>
+        <div class="checker-symptoms">
+          <label class="check-item"><input type="checkbox" value="3" name="sym" /> <i class="fa-solid fa-thermometer"></i> Fever (38°C+)</label>
+          <label class="check-item"><input type="checkbox" value="2" name="sym" /> <i class="fa-solid fa-lungs"></i> Dry cough</label>
+          <label class="check-item"><input type="checkbox" value="4" name="sym" /> <i class="fa-solid fa-wind"></i> Shortness of breath</label>
+          <label class="check-item"><input type="checkbox" value="2" name="sym" /> <i class="fa-solid fa-battery-quarter"></i> Fatigue / tiredness</label>
+          <label class="check-item"><input type="checkbox" value="3" name="sym" /> <i class="fa-solid fa-nose"></i> Loss of smell/taste</label>
+          <label class="check-item"><input type="checkbox" value="1" name="sym" /> <i class="fa-solid fa-head-side-cough"></i> Headache</label>
+          <label class="check-item"><input type="checkbox" value="1" name="sym" /> <i class="fa-solid fa-person-dots-from-line"></i> Body aches</label>
+          <label class="check-item"><input type="checkbox" value="2" name="sym" /> <i class="fa-solid fa-throat"></i> Sore throat</label>
+          <label class="check-item"><input type="checkbox" value="1" name="sym" /> <i class="fa-solid fa-stomach"></i> Nausea/diarrhea</label>
+          <label class="check-item"><input type="checkbox" value="4" name="sym" /> <i class="fa-solid fa-lips"></i> Blue lips/face</label>
+        </div>
+        <div class="checker-contact">
+          <label><i class="fa-solid fa-user-group"></i> Had close contact with COVID+ person in last 14 days?</label>
+          <div class="radio-group">
+            <label><input type="radio" name="contact" value="yes" /> Yes</label>
+            <label><input type="radio" name="contact" value="no" checked /> No</label>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="runChecker()">
+          <i class="fa-solid fa-magnifying-glass-chart"></i> Assess My Risk
+        </button>
+      </div>
+
+      <div class="checker-result" id="checkerResult" style="display:none;">
+        <div class="result-icon" id="resultIcon"></div>
+        <div class="result-level" id="resultLevel"></div>
+        <p class="result-msg" id="resultMsg"></p>
+        <ul class="result-steps" id="resultSteps"></ul>
+        <button class="btn btn-outline" onclick="resetChecker()">
+          <i class="fa-solid fa-rotate-left"></i> Check Again
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section bg-alt" id="faq">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Questions</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-search reveal">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="faqSearch" placeholder="Search FAQs..." oninput="filterFAQ()" />
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item reveal" onclick="toggleFAQ(this)">
+        <div class="faq-q"><span>How does COVID-19 spread?</span><i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a">COVID-19 spreads mainly through respiratory droplets when an infected person coughs, sneezes, talks, or breathes. It can also spread by touching surfaces and then touching the face.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFAQ(this)">
+        <div class="faq-q"><span>When should I get tested?</span><i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a">Get tested if you have symptoms, have been in close contact with a confirmed case, or if you are travelling. RTPCR, Rapid Antigen Tests (RAT) are available at government hospitals and labs.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFAQ(this)">
+        <div class="faq-q"><span>What is the isolation period?</span><i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a">Isolate for at least 5–10 days from onset of symptoms or from the date of positive test. Continue to mask for an additional 5 days after leaving isolation.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFAQ(this)">
+        <div class="faq-q"><span>Can I get COVID-19 after vaccination?</span><i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a">Yes — breakthrough infections are possible. However, vaccines significantly reduce the risk of severe illness, hospitalization, and death. Getting vaccinated is still strongly recommended.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFAQ(this)">
+        <div class="faq-q"><span>What is Long COVID?</span><i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a">Long COVID refers to symptoms that persist for weeks or months after the initial infection. These include fatigue, brain fog, shortness of breath, and joint pain. It can affect anyone regardless of disease severity.</div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFAQ(this)">
+        <div class="faq-q"><span>Are children at risk?</span><i class="fa-solid fa-plus"></i></div>
+        <div class="faq-a">Children generally have milder symptoms. However, MIS-C (Multisystem Inflammatory Syndrome) is a rare but serious condition linked to COVID in children. Vaccination is recommended for children above 12 in India.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HELPLINE ===== -->
+<section class="section" id="helpline">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-badge">Emergency</span>
+      <h2>Helplines &amp; Resources</h2>
+      <p>India-specific emergency contacts and official resources</p>
+    </div>
+    <div class="helpline-grid">
+      <div class="helpline-card reveal emergency">
+        <div class="helpline-icon"><i class="fa-solid fa-phone-volume"></i></div>
+        <h4>National COVID Helpline</h4>
+        <a href="tel:1075" class="helpline-num">1075</a>
+        <p>24×7 toll-free helpline by Government of India</p>
+      </div>
+      <div class="helpline-card reveal">
+        <div class="helpline-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h4>AIIMS Helpline</h4>
+        <a href="tel:01126588500" class="helpline-num">011-26588500</a>
+        <p>All India Institute of Medical Sciences, New Delhi</p>
+      </div>
+      <div class="helpline-card reveal">
+        <div class="helpline-icon"><i class="fa-solid fa-ambulance"></i></div>
+        <h4>National Ambulance</h4>
+        <a href="tel:112" class="helpline-num">112</a>
+        <p>Emergency ambulance services across India</p>
+      </div>
+      <div class="helpline-card reveal">
+        <div class="helpline-icon"><i class="fa-solid fa-brain"></i></div>
+        <h4>Mental Health Helpline</h4>
+        <a href="tel:18004914416" class="helpline-num">1800-599-0019</a>
+        <p>NIMHANS – Free mental health support</p>
+      </div>
+    </div>
+    <div class="official-links reveal">
+      <h3>Official Resources</h3>
+      <div class="links-grid">
+        <a href="https://www.who.int/covid-19" target="_blank" rel="noopener" class="official-link">
+          <i class="fa-solid fa-globe"></i> WHO COVID Info
+        </a>
+        <a href="https://www.mohfw.gov.in" target="_blank" rel="noopener" class="official-link">
+          <i class="fa-solid fa-landmark"></i> MoHFW India
+        </a>
+        <a href="https://www.cowin.gov.in" target="_blank" rel="noopener" class="official-link">
+          <i class="fa-solid fa-syringe"></i> CoWIN Portal
+        </a>
+        <a href="https://covid19.who.int" target="_blank" rel="noopener" class="official-link">
+          <i class="fa-solid fa-chart-bar"></i> WHO Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a href="#home" class="nav-logo"><i class="fa-solid fa-virus-covid"></i> CovidCare</a>
+        <p>Built with real-time data from disease.sh API. For informational purposes only. Always consult a healthcare professional.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Quick Links</h5>
+        <a href="#stats">Live Stats</a>
+        <a href="#symptoms">Symptoms</a>
+        <a href="#checker">Symptom Checker</a>
+        <a href="#vaccines">Vaccines</a>
+      </div>
+      <div class="footer-links">
+        <h5>Resources</h5>
+        <a href="https://www.who.int" target="_blank">WHO</a>
+        <a href="https://www.mohfw.gov.in" target="_blank">MoHFW India</a>
+        <a href="https://disease.sh" target="_blank">API: disease.sh</a>
+        <a href="https://www.cowin.gov.in" target="_blank">CoWIN</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Data from <a href="https://disease.sh" target="_blank">disease.sh</a> open API · Built with ❤️ using HTML, CSS, JavaScript · <a href="https://github.com" target="_blank">View on GitHub</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
