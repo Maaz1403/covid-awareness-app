@@ -25,7 +25,7 @@ https://maaz1403.github.io/covid-awareness-app
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **HTML5** — Semantic markup, accessibility attributes
 - **CSS3** — Custom properties, Flexbox, Grid, animations, dark mode
